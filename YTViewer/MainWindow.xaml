@@ -1,48 +1,70 @@
-﻿<Window x:Class="YTViewer.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
-        xmlns:fa="http://schemas.fontawesome.io/icons/"
-        xmlns:local="clr-namespace:YTViewer"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+﻿<Controls:MetroWindow x:Class="YTViewer.MainWindow"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+                      xmlns:local="clr-namespace:YTViewer"
+                      
+                      Activated="App_Activated" 
+                      Deactivated="App_Deactivated"
+                      
+                      mc:Ignorable="d"
+                      Title="YTV"
+                      Height="325" Width="525"
+                      MinHeight="150" MinWidth="180">
+
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands>
+            <Button Name="Settings_Btn"
+                    Click="Settings_Btn_Click"
+                    MouseEnter="Settings_Btn_MouseEnter"
+                    MouseLeave="Settings_Btn_MouseLeave">
+                <iconPacks:PackIconMaterial Name="Settings_Ico" Kind="Settings" />
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <TextBlock Name="debug"
+                       Height="16"
+                       Background="Transparent"></TextBlock>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="16"/>
         </Grid.RowDefinitions>
 
         <cefSharp:ChromiumWebBrowser Name="Video_WB" Grid.Row="0" Address="https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions" />
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <TextBox Grid.Column="0"
-                     Name="videoID_TxtBx"
+        <Controls:FlyoutsControl>
+            <Controls:Flyout Name="Menu_Flyout"
+                             Position="Left"
+                             Width="150"
+                             CloseButtonVisibility="Collapsed">
+                <StackPanel>
+                    <TextBox Name="videoID_TxtBx"
                      VerticalContentAlignment="Center"
-                     FontSize="10"
-                     Background="#FF151515" Foreground="#FFD8D8D8"></TextBox>
-            
-            <Button Grid.Column="1"
-                    Name="Load_Btn"
+                     Height="16"
+                     FontSize="10"></TextBox>
+
+                    <Button Name="Load_Btn"
                     Click="Load_Btn_Click"
-                    Background="#FF232323" Foreground="#FFE6E6E6">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Load video " FontSize="10"></TextBlock>
-                    <fa:ImageAwesome Icon="download" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" />
+                    Height="16">
+                        <StackPanel Orientation="Horizontal" Height="16">
+                            <TextBlock Text="Load video " FontSize="10"></TextBlock>
+                            <iconPacks:PackIconOcticons Kind="DesktopDownload" />
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
-            </Button>
-            
-            <TextBlock Grid.Column="2"
-                       Name="debug"
-                       Background="#FF212121" Foreground="#FFE2E2E2"></TextBlock>
-        </Grid>
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+
 
     </Grid>
-</Window>
+</Controls:MetroWindow>
