@@ -40,7 +40,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <cefSharp:ChromiumWebBrowser Name="Video_WB" Grid.Row="0" Address="https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions" />
+        <cefSharp:ChromiumWebBrowser Name="Video_WB" Grid.Row="0" Address="https://atulin.github.io/YouTube-Viewer/" />
 
         <Controls:FlyoutsControl>
             <Controls:Flyout Name="Menu_Flyout"
