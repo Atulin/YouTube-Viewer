@@ -12,12 +12,19 @@
                       Deactivated="App_Deactivated"
                       
                       mc:Ignorable="d"
+                      
                       Title="YTV"
                       Height="325" Width="525"
-                      MinHeight="150" MinWidth="180">
+                      MinHeight="150" MinWidth="180"
+                      
+                      ResizeMode="CanResize">
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
+            <Button Name="MoveTitle_Btn"
+                    Click="MoveTitle_Btn_Click">
+                <iconPacks:PackIconMaterial Name="Visibility_Ico" Kind="EyeOutlineOff" />
+            </Button>
             <Button Name="Settings_Btn"
                     Click="Settings_Btn_Click"
                     MouseEnter="Settings_Btn_MouseEnter"
@@ -29,7 +36,7 @@
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <TextBlock Name="debug"
+            <TextBlock Name="VideoUrl_TxtBlck"
                        Height="16"
                        Background="Transparent"></TextBlock>
         </Controls:WindowCommands>
@@ -47,21 +54,34 @@
                              Position="Left"
                              Width="150"
                              CloseButtonVisibility="Collapsed">
-                <StackPanel>
-                    <TextBox Name="videoID_TxtBx"
-                     VerticalContentAlignment="Center"
-                     Height="16"
-                     FontSize="10"></TextBox>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="64"/>
+                    </Grid.RowDefinitions>
 
-                    <Button Name="Load_Btn"
-                    Click="Load_Btn_Click"
-                    Height="16">
-                        <StackPanel Orientation="Horizontal" Height="16">
-                            <TextBlock Text="Load video " FontSize="10"></TextBlock>
-                            <iconPacks:PackIconOcticons Kind="DesktopDownload" />
-                        </StackPanel>
+                    <StackPanel>
+                        <TextBox Name="videoID_TxtBx"
+                                 VerticalContentAlignment="Center"
+                                 Height="32"
+                                 FontSize="14"></TextBox>
+
+                        <Button Name="Load_Btn"
+                                Click="Load_Btn_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Load video  " FontSize="12"></TextBlock>
+                                <iconPacks:PackIconOcticons Kind="DesktopDownload" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <Button Name="Kofi_Btn"
+                            Click="Kofi_Btn_Click"
+                            Grid.Row="1"
+                            Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                        <Image Source="imgs/kofi5.png"></Image>
                     </Button>
-                </StackPanel>
+                </Grid>
             </Controls:Flyout>
         </Controls:FlyoutsControl>
 

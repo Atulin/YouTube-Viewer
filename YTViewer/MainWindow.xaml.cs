@@ -41,7 +41,7 @@ namespace YTViewer
         {
             string url = "https://www.youtube.com/embed/" + videoID_TxtBx.Text + "?fs=0&iv-load-policy=3&rel=0&modestbranding=1";
             Video_WB.Address = url;
-            debug.Text = " https://www.youtube.com/watch?v=" + videoID_TxtBx.Text;
+            VideoUrl_TxtBlck.Text = " https://www.youtube.com/watch?v=" + videoID_TxtBx.Text;
         }
 
         bool menuFlyoutFlipFlop = false;
@@ -68,6 +68,44 @@ namespace YTViewer
         private void Settings_Btn_MouseLeave(object sender, MouseEventArgs e)
         {
             Settings_Ico.Spin = false;
+        }
+
+        bool titebarVisibilityFlipFlop = true;
+        private void MoveTitle_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (titebarVisibilityFlipFlop)
+            {
+                ShowTitleBar = false;
+                ShowMaxRestoreButton = false;
+                ShowMinButton = false;
+                ShowCloseButton = false;
+                VideoUrl_TxtBlck.Visibility = Visibility.Hidden;
+
+                Height -= 30;
+
+                Visibility_Ico.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.EyeOutline;
+
+                titebarVisibilityFlipFlop = false;
+            }
+            else
+            {
+                ShowTitleBar = true;
+                ShowMaxRestoreButton = true;
+                ShowMinButton = true;
+                ShowCloseButton = true;
+                VideoUrl_TxtBlck.Visibility = Visibility.Visible;
+
+                Height += 30;
+
+                Visibility_Ico.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.EyeOutlineOff;
+
+                titebarVisibilityFlipFlop = true;
+            }
+        }
+
+        private void Kofi_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://ko-fi.com/H2H365N9");
         }
     }
 }
