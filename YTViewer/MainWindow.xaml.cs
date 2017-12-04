@@ -24,5 +24,12 @@ namespace YTViewer
         {
             InitializeComponent();
         }
+
+        private void Load_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            string url = "https://www.youtube.com/embed/" + videoID_TxtBx.Text + "?fs=0&iv-load-policy=3&rel=0&modestbranding=1";
+            Video_WB.Address = url;
+            debug.Text = " https://www.youtube.com/watch?v=" + videoID_TxtBx.Text;
+        }
     }
 }

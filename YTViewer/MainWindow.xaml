@@ -3,10 +3,46 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:YTViewer"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="16"/>
+        </Grid.RowDefinitions>
+
+        <cefSharp:ChromiumWebBrowser Name="Video_WB" Grid.Row="0" Address="https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0"
+                     Name="videoID_TxtBx"
+                     VerticalContentAlignment="Center"
+                     FontSize="10"
+                     Background="#FF151515" Foreground="#FFD8D8D8"></TextBox>
+            
+            <Button Grid.Column="1"
+                    Name="Load_Btn"
+                    Click="Load_Btn_Click"
+                    Background="#FF232323" Foreground="#FFE6E6E6">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Load video " FontSize="10"></TextBlock>
+                    <fa:ImageAwesome Icon="download" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" />
+                </StackPanel>
+            </Button>
+            
+            <TextBlock Grid.Column="2"
+                       Name="debug"
+                       Background="#FF212121" Foreground="#FFE2E2E2"></TextBlock>
+        </Grid>
+
     </Grid>
 </Window>
