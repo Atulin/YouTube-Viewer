@@ -17,31 +17,74 @@
                       Height="325" Width="525"
                       MinHeight="150" MinWidth="180"
                       
-                      ResizeMode="CanResize">
+                      ResizeMode="CanResizeWithGrip"
+                      
+                      RightWindowCommandsOverlayBehavior="Always">
+
+    <Window.Resources>
+        <VisualBrush x:Key="DotFillBrush" 
+                     TileMode="Tile" 
+                     Viewport="0,0,10,10" 
+                     ViewportUnits="Absolute" 
+                     Viewbox="0,0,12,12"
+                     ViewboxUnits="Absolute">    
+            <VisualBrush.Visual>
+                <Ellipse 
+                    Fill="#00C0FF" 
+                    Width="10" Height="10" />
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <VisualBrush x:Key="HatchBrush" 
+                     TileMode="Tile" Viewport="0,0,4,4" 
+                     ViewportUnits="Absolute" Viewbox="0,0,10,10"    
+                     ViewboxUnits="Absolute">    
+            <VisualBrush.Visual>
+                <Canvas>
+                    <Path Stroke="#92FFFFFF" Data="M 0 0 l 10 10" />
+                    <Path Stroke="#92FFFFFF" Data="M 0 10 l 10 -10" />
+                </Canvas>
+            </VisualBrush.Visual>
+        </VisualBrush>
+    </Window.Resources>
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
+            <Rectangle Name="MoveArea"
+                       MouseDown="MoveArea_MouseDown"
+                       Width="10"
+                       ToolTip="Drag window"
+                       Stroke="#22FFFFFF"
+                       Fill="{StaticResource HatchBrush}" Margin="0,1,-2,1">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="1" ShadowDepth="1"/>
+                </Rectangle.Effect>
+            </Rectangle>
+
             <Button Name="MoveTitle_Btn"
-                    Click="MoveTitle_Btn_Click">
-                <iconPacks:PackIconMaterial Name="Visibility_Ico" Kind="EyeOutlineOff" />
+                    Click="MoveTitle_Btn_Click"
+                    ToolTip="Toggle title bar">
+                <iconPacks:PackIconMaterial Name="Visibility_Ico" Kind="EyeOutlineOff" >
+                    <iconPacks:PackIconMaterial.Effect>
+                        <DropShadowEffect BlurRadius="1" ShadowDepth="1"/>
+                    </iconPacks:PackIconMaterial.Effect>
+                </iconPacks:PackIconMaterial>
             </Button>
+
             <Button Name="Settings_Btn"
                     Click="Settings_Btn_Click"
+                    ToolTip="Open settings and paste video code"
                     MouseEnter="Settings_Btn_MouseEnter"
                     MouseLeave="Settings_Btn_MouseLeave">
-                <iconPacks:PackIconMaterial Name="Settings_Ico" Kind="Settings" />
+                <iconPacks:PackIconMaterial Name="Settings_Ico" Kind="Settings" >
+                    <iconPacks:PackIconMaterial.Effect>
+                        <DropShadowEffect BlurRadius="1" ShadowDepth="1"/>
+                    </iconPacks:PackIconMaterial.Effect>
+                </iconPacks:PackIconMaterial>
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
-
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
-            <TextBlock Name="VideoUrl_TxtBlck"
-                       Height="16"
-                       Background="Transparent"></TextBlock>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
-
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -57,27 +100,84 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="64"/>
+                        <RowDefinition Height="48"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel>
+                    <StackPanel Margin="5,-30,5,0">
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock TextAlignment="Center" FontFamily="Segoe UI Semibold" VerticalAlignment="Center">Video to load</TextBlock>
+
+                            <Button Width="24" Height="24"
+                                    Style="{DynamicResource MetroCircleButtonStyle}"
+                                    ToolTip="Only the video code!&#x0a;youtube.com/watch?v=CODE">
+                                <iconPacks:PackIconMaterial Kind="Help" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                            Width="10" Height="10"/>
+                            </Button>
+                        </StackPanel>
+
                         <TextBox Name="videoID_TxtBx"
                                  VerticalContentAlignment="Center"
                                  Height="32"
                                  FontSize="14"></TextBox>
 
-                        <Button Name="Load_Btn"
-                                Click="Load_Btn_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Load video  " FontSize="12"></TextBlock>
-                                <iconPacks:PackIconOcticons Kind="DesktopDownload" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
-                            </StackPanel>
-                        </Button>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Button Name="Load_Btn"
+                                    Grid.Column="0"
+                                    Click="Load_Btn_Click" Style="{StaticResource SquareButtonStyle}"
+                                    ToolTip="Load video"
+                                    BorderBrush="#B2FFFFFF">
+                                <iconPacks:PackIconOcticons Kind="DesktopDownload" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,0,5,0" />
+                            </Button>
+
+                            <Button Name="OpenLink_Btn"
+                                    Grid.Column="1"
+                                    Click="OpenLink_Btn_Click" Style="{StaticResource SquareButtonStyle}"
+                                    ToolTip="Open video in browser"
+                                    BorderBrush="#B2FFFFFF">
+                                <iconPacks:PackIconModern Kind="GlobeWire" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,0,5,0" />
+                            </Button>
+                        </Grid>
+                        
+                        <Separator Margin="0,5,0,1"></Separator>
+                        <Separator Margin="0,1,0,5"></Separator>
+
+                        <TextBlock TextAlignment="Center" FontFamily="Segoe UI Semibold">Settings</TextBlock>
+
+                        <Separator Margin="0,5"></Separator>
+
+                        <Label>Drag handle width</Label>
+                        <Slider Name="DragWidth_Slider"
+                                Maximum="50" Minimum="10"
+                                IsSnapToTickEnabled="True" TickFrequency="1"
+                                Value="10">
+                            <Slider.ToolTip>
+                                <ToolTip Content="{Binding RelativeSource={RelativeSource Self},
+                                         Path=PlacementTarget.Value}"
+                                         ContentStringFormat="Width: {0:0}px" />
+                            </Slider.ToolTip>
+                        </Slider>
+
+                        <Separator Margin="0,5"></Separator>
+                        
+                        <Button Name="SaveSettings_Btn" 
+                                Click="SaveSettings_Btn_Click"
+                                Style="{StaticResource SquareButtonStyle}"
+                                ToolTip="Save settings"
+                                BorderBrush="#B2FFFFFF">Save</Button>
+
+
                     </StackPanel>
 
                     <Button Name="Kofi_Btn"
                             Click="Kofi_Btn_Click"
                             Grid.Row="1"
+                            ToolTip="Go to Ko-Fi and buy me a coffee :)"
                             Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}">
                         <Image Source="imgs/kofi5.png"></Image>
                     </Button>

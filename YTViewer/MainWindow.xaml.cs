@@ -21,11 +21,20 @@ namespace YTViewer
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        string videoURL = "https://youtube.com";
+
         public MainWindow()
         {
             InitializeComponent();
+
+            // Read from settings
+
+            // Read MoveArea width
+            MoveArea.Width = Properties.Settings.Default.DragAreaWidth;
+            DragWidth_Slider.Value = 1.0 * Properties.Settings.Default.DragAreaWidth;
         }
 
+        // Set app window to topmost
         void App_Activated(object sender, EventArgs e)
         {
             Topmost = true;
@@ -37,13 +46,32 @@ namespace YTViewer
             Activate();
         }
 
-        private void Load_Btn_Click(object sender, RoutedEventArgs e)
+        // Set up draggable area
+        private void MoveArea_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string url = "https://www.youtube.com/embed/" + videoID_TxtBx.Text + "?fs=0&iv-load-policy=3&rel=0&modestbranding=1";
-            Video_WB.Address = url;
-            VideoUrl_TxtBlck.Text = " https://www.youtube.com/watch?v=" + videoID_TxtBx.Text;
+            this.DragMove();
         }
 
+        // Keep aspect ratio
+            // TODO
+
+
+        // Load URL into CefSharp window
+        private void Load_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            // Create URL strings
+            string url = "https://www.youtube.com/embed/" + videoID_TxtBx.Text + "?fs=0&iv-load-policy=3&rel=0&modestbranding=1";
+            videoURL = "https://www.youtube.com/watch?v=" + videoID_TxtBx.Text;
+
+            // Lode video into CefSharp
+            Video_WB.Address = url;
+            
+            // Load video title to titlebar
+            string title = YouTubeManager.GetTitle(videoURL);
+            this.Title = title;
+        }
+
+        // Menu flyout control
         bool menuFlyoutFlipFlop = false;
         private void Settings_Btn_Click(object sender, RoutedEventArgs e)
         {
@@ -60,6 +88,7 @@ namespace YTViewer
             
         }
 
+        // Menu buttons
         private void Settings_Btn_MouseEnter(object sender, MouseEventArgs e)
         {
             Settings_Ico.Spin = true;
@@ -70,6 +99,7 @@ namespace YTViewer
             Settings_Ico.Spin = false;
         }
 
+        // Title bar visibility control
         bool titebarVisibilityFlipFlop = true;
         private void MoveTitle_Btn_Click(object sender, RoutedEventArgs e)
         {
@@ -79,7 +109,6 @@ namespace YTViewer
                 ShowMaxRestoreButton = false;
                 ShowMinButton = false;
                 ShowCloseButton = false;
-                VideoUrl_TxtBlck.Visibility = Visibility.Hidden;
 
                 Height -= 30;
 
@@ -93,7 +122,6 @@ namespace YTViewer
                 ShowMaxRestoreButton = true;
                 ShowMinButton = true;
                 ShowCloseButton = true;
-                VideoUrl_TxtBlck.Visibility = Visibility.Visible;
 
                 Height += 30;
 
@@ -103,9 +131,29 @@ namespace YTViewer
             }
         }
 
+        // KoFi button
         private void Kofi_Btn_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://ko-fi.com/H2H365N9");
+        }
+
+        // Open video in browser
+        private void OpenLink_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(videoURL);
+        }
+
+        // Save settigs button
+        private void SaveSettings_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            MoveArea.Width = DragWidth_Slider.Value;
+
+            // Write to MoveArea width setting
+            Properties.Settings.Default.DragAreaWidth = Convert.ToInt32(DragWidth_Slider.Value);
+
+            //Save settings
+            Properties.Settings.Default.Save();
+
         }
     }
 }
